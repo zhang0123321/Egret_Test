@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ShopLeftItem" states="up,down,disabled,upAndSelected,downAndSelected,disabledAndSelected"
+        currentState="up" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Group width="100%" height="100%">
+        <e:layout>
+            <e:BasicLayout/>
+        </e:layout>
+        <e:Image fillMode="scale" alpha="1" alpha.disabled="0.5" alpha.down="0.7" anchorOffsetX.up="0" anchorOffsetY.up="0"
+                 height.up="100%" x.up="0" y.up="0" width.up="100%" x="0" y="0" width="100%" height="100%"
+                 source="aShop_btn_bg4_png" source.upAndSelected="aShop_btn_bg3_png"  source.downAndSelected="aShop_btn_bg3_png" source.disabledAndSelected="aShop_btn_bg3_png"/>
+        <e:Label id="exml_labelDisplay" size="20" textAlign="center" verticalAlign="middle"
+                 fontFamily="Tahoma" x.up="0" y.up="0" width.up="100%" height.up="100%" x="0" y="0"
+                 width="100%" height="100%" text="button"  textColor.up="0x7c3609" textColor="0x874104" textColor.upAndSelected="0xffffff" textColor.downAndSelected="0xffffff" textColor.disabledAndSelected="0xffffff"/>
+    </e:Group>
+</e:Skin>

@@ -1,0 +1,949 @@
+syntax = "proto2";
+
+//登录请求 10000
+message LoginReq {
+	optional int32 rid = 1;
+	optional int32 serverId = 2; //服务器id
+}
+
+//登录返回 10000
+message LoginResp {
+	optional int32 result = 1; //1:登录成功  2:角色名不存在  3:角色被封号  4:平台校验失败
+	optional int32 rid = 2;
+	optional int64 server_time = 3; //服务器时间
+	optional int64 openServerTime = 4;	//开服时间
+	optional int64 createRoleTime = 5;	//创建角色时间
+	optional int32 realServerId = 6;	//玩家保存的服务器ID
+}
+
+//角色注册、创建请求 10001
+message RoleInitReq {
+	optional string nick = 1;	//玩家昵称
+	optional int32 sex = 2;	//性别（1 男，0 女）
+	optional int32 career = 3;	//种族
+	optional int32 serverId = 4;	//服务器ID
+	optional string openId = 5;	//openid
+	optional string token = 6;	//设备token
+	optional string platformId = 7;	//平台标识
+	optional string channel = 8;	//渠道标识
+
+}
+
+//角色注册、创建返回 10001
+message RoleInitResp {
+	optional int32 result = 1;	//1:成功 2:optionId为空 3:平台校验失败 4:角色已存在
+	optional int32 rid = 2;	//角色id
+	optional int64 createRoleTime = 3;	//创建时间
+}
+
+//角色信息请求 10002
+message RoleInfoReq {
+	optional int32 rid = 1;	//角色rid
+}
+
+//角色信息返回 10002
+message RoleInfoResp {
+	optional int32 rid = 1;		//角色id
+	optional string nick = 2;	//昵称
+	optional int32 level = 3;	//等级
+	optional int32 sex = 4;		//性别（0 男 1 女）
+	optional int32 career = 5;	//种族
+	optional int32 head = 6;	//头像ID
+	optional int32 serverName = 7;	//服务器名称
+	optional int32 power = 8;	//战力 
+	repeated propertyPro pro = 9; //资产
+	optional int64 experience = 10;	//经验
+	optional string platformId = 11;	//平台id
+	optional int32 unique_platform_id = 12;//平台唯一id
+	repeated Equip_Info equip = 13;	//装备Id
+}
+
+// 账号存在判断 10003
+message RoleExistReq {
+	optional string openId = 1;	//openId
+	optional int32 serverId = 2;	//服务器id
+}
+//10003
+message RoleExistResp {
+	optional int32 rid = 1;	//rid
+}
+
+//角色升级 10004
+message RoleLevelUpReq{
+	optional int32 rid = 1;
+}
+
+message RoleLevelUpResp {
+	optional int32 level = 1; //当前等级
+	optional int64 exp = 2;	//当前经验
+}
+
+//资产
+message propertyPro {
+	optional int32 id = 1; //资产id  3,银两 4,绑定金币 5元宝
+	optional int64 num = 2; //资产数量
+}
+
+//角色改名 10005
+message ChangeNickNameReq {
+	optional string name = 1;
+}
+
+message ChangeNickNameResp {
+	optional bool result = 1;//是否成功
+	optional string name = 2;//修改成功后的名称
+}
+
+//----------聊天 ----------
+//聊天信息
+message GChatMsg {
+	optional int32 rid = 1;	//角色ID
+	optional string chat_data = 2;	//聊天内容
+	optional int32 time = 3;	//消息时间
+	optional int32 type = 4;	//正常聊天：0，客服：1
+}
+
+//聊天对象
+message GChatRole {
+	optional int32 rid = 1;	//角色Id
+	optional int32 vip_level = 2;	//vip等级
+	optional int32 sex = 3;	//性别
+	optional int32 head = 4;	//头像
+	optional string nick = 5;	//昵称
+}
+
+//群体聊天
+message GGroupChat {
+	optional int32 type = 1;	//群聊种类  1世界  2帮派
+	optional bool is_pushing = 2;	//是否系统推送消息 true不受字数限制  普通聊天是false
+	optional GChatMsg msg = 3;	//聊天信息
+	optional GChatRole chatter = 4;	//说话的人
+	optional int32 template = 5;	//聊天模板 0普通聊天  大于0对应聊天模板
+	optional int32 templateRid = 6; //聊天模板玩家rid
+
+}
+
+//群体聊天 10011
+message GroupChatReq {	
+	optional int32 type = 1;	//群聊种类 1世界 2帮派 3跨服比赛 4跨服矿战  
+	optional string chat_data = 2;	//群聊内容
+	optional bool is_pushing = 3;	//是否系统推送系统， true 则不受字数限制 false受字数限制
+}
+
+message GroupChatResp {
+	optional int32 type = 1;	//群聊种类 1世界 2帮派
+	optional GChatRole chat_role = 2;	//说话的人
+	optional GChatMsg chat_msg = 3;	//聊天信息
+	optional int32 template = 4;	//聊天模板 0普通聊天  大于0对应聊天模板
+	optional string template_fiters = 5;	//聊天模板过滤字段
+	optional int32 template_time = 7;	//模板创建时间
+	optional int32 template_rid = 8;	//聊天模板玩家rid
+	optional int32 serverId = 9;	//聊天服务器Id
+} 
+
+//私聊 10012
+message PrivateChatReq {
+	optional int32 rid = 1;	//目标玩家Id
+	optional string chat_data = 2; //私聊内容
+	optional int32 type = 3;	//0聊天 1检测聊天
+
+}
+
+message PrivateChatResp {
+	optional GChatRole chat_role = 1;	//聊天对象，对方玩家
+	optional GChatMsg chat_msg = 2;	//聊天信息
+	optional int32 receivRid = 3;	//接收者
+}
+
+//请求聊天记录 10013
+message ChatLogReq {
+	optional int32 type = 1;	//聊天信息 1世界 2帮派
+}
+
+message ChatLogResp {
+	repeated GGroupChat chat_msg = 1;
+}
+
+//请求私聊记录 100131
+message PrivateChatLogReq {
+	optional int32 rid = 1;
+}
+
+message PrivateChatLogResp {
+	optional GChatRole chat_role = 1;//聊天对象
+	repeated GChatMsg chat_msg = 2;//聊天信息
+}
+
+
+//请求聊天玩家信息 10014
+message ChatRoleInfoReq {
+	optional int32 target = 1;	//玩家rid
+}
+
+message ChatRoleInfoResp {
+	optional int32 target = 1;	//玩家rid
+	optional string nick = 2;	//玩家姓名
+	optional int32 head = 3;	//玩家头像
+	optional int32 online = 4;	//0未在线 1在线
+}
+
+
+//-----------聊天--------end
+
+//进入捕捉宠物 10015
+message EnterPetHuntReq {
+}
+
+message EnterPetHuntResp {
+	optional int32 petId = 1;//宠物id
+} 
+
+//捕捉宠物 10016
+message PetHuntReq {
+	optional bool isGold = 1;//是否金币购买
+}
+
+message PetHuntResp {
+	optional bool isSuccess = 1;//是否捕捉成功 true-成功 false-失败
+	optional int32 petId = 2;//宠物id
+	optional int32 captureTimes = 3;//宠物捕捉次数
+	optional bool isGold = 4;//是否金币购买
+}
+
+//获取宠物列表信息 10017
+message PetListReq {
+}
+
+message PetListResp {
+	repeated PetInfo petTnfo = 1;	//宠物信息
+}
+
+//宠物改名 10018
+message ChangeNameReq {
+	optional int32 petId = 1;//宠物id
+	optional string newName = 2;//宠物新的名字
+}
+
+message ChangeNameResp {
+	optional int32 petTd = 1;//宠物id
+	optional string newName = 2;//宠物新的名字	
+}
+
+//取消捕捉宠物 10019
+message CancelPetHuntReq {
+}
+//取消捕捉宠物
+message CancelPetHuntResp {
+}
+
+
+
+message PetInfo {
+	optional int32 petId = 1;
+	optional int32 level = 2;
+	optional string petName = 3;
+	optional int32 status = 4;	//状态
+	optional int32 petPower = 5;	//战力
+	optional string skillId = 6;//技能id
+
+}
+
+//关卡信息 10020
+message DragonCombatReq {
+	optional int32 type = 1;// 0小怪 1 boss
+}
+
+message DragonCombatResp {
+	optional GDragon dragon = 1; //关卡信息
+}
+
+//关卡信息
+message GDragon {
+	optional string chapter = 1;//当前关卡
+	optional int32 out_post = 2;//当前关卡id
+	optional Award awards = 3;//未领取的章节奖励	
+}
+//关卡奖励
+message Award {
+	optional int32 out_post = 1;//关卡id
+	optional int32 chapter =2;//未领取的奖励
+}
+
+//宠物升级 10021
+message PetLevelUpReq {
+	optional int32 petId = 1;//宠物
+	optional bool isAutoBuy = 2;//是否自动购买
+}
+
+message PetLevelUpResp {
+	optional int32 petId = 1;
+	optional bool isAutoBuy = 2;
+	optional int32 level = 3;//等级
+	optional int32 exp = 4;	//经验
+}
+
+
+
+
+
+
+//福利大厅信息 11001
+message GetWelfareMallInfoReq {
+	
+}
+
+message GetWelfareMallInfoResp {
+	optional bool everyLogin = 1;	//每日登陆奖励领取情况 true已领取 false未领取
+	optional int32 totalLogin = 2;	//累计登陆天数
+	optional bool totalReward = 3;	//累计登陆奖励领取情况
+	optional int32 onlineTime = 4;	//在线时长
+	repeated int32 mission = 5;	//已领取的等级任务
+}
+
+//领取每日登陆奖励 11002
+message GetEveryLoginReq {
+}
+
+message GetEveryLoginResp {
+	optional bool result = 1;//结果
+}
+
+//领取累计登陆奖励 11003
+message GetTotalRewardReq {
+}
+
+message GetTotalRewardResp {
+	optional bool result = 1;//结果
+}
+
+//领取等级奖励 11004
+message GetLevelRewardReq {
+	optional int32 level = 1;//对应等级
+}
+
+message GetLevelRewardResp {
+	optional bool result = 1;	//结果
+}
+
+//等级排行 12001
+message RoleLevelRankReq {
+	optional int32 functionType = 1;// -1等级
+	optional int32 page = 2;	//请求查看第几页信息
+	optional int32 pageNum = 3;	//每页tableview里的cell数量
+}
+
+message RoleLevelRankResp {
+	optional int32 functionType = 1;// -1等级
+	optional int32 page = 2;	//请求查看第几页信息
+	optional int32 pageNum = 3;	//每页tableview里的cell数量
+	optional int32 myRank = 4;	//我的排名
+	repeated CellInfo cellList = 5;	//排行榜列表
+	optional CellInfo firstInfo = 6;	//第一名信息
+	optional int32 pages = 7;//总页数 
+	optional int32 lvMax = 8;//等级榜第一名等级
+	
+
+}
+
+message CellInfo {
+	optional int32 rid = 1;
+	optional string name = 2;
+	optional int32 level = 3;//等级
+	optional int32 vipLv = 4;//vip等级
+	optional int32 power = 5;//战力
+	optional int32 rank = 6;//排名
+
+}
+
+// -----装备 背包------begin
+//一键穿戴 13001
+message EquipRapidWearReq {
+
+}
+
+message EquipRapidWearResp {
+	repeated Equip_Info equip = 1;
+} 
+
+//装备背包请求 13002
+message EquipPackageReq {
+	
+}
+
+//装备背包返回 13002
+message EquipPackageResp {
+	repeated Equip_Info equipid = 1;
+	optional int32 capacity = 2;	//背包容量
+	optional bool isEnd = 3;	//是否结束
+}
+
+//装备获得(前端监听) 13003
+message getEquipResp {
+	repeated Equip_Info equipId = 1;
+}
+
+//装备消耗(前端监听) 13004
+message costEquipResp {
+	repeated Equip_Info equipInfo = 1;
+}
+
+//获取可熔炼的装备id 13005
+message EquipSmeltIdReq {
+}
+
+message EquipSmeltdResp {
+	repeated int32 id = 1;
+}
+
+//熔炼 13006
+message EquipSmeltReq {
+	repeated int32 id =1;
+}
+
+message EquiSmelResp {
+}
+
+//背包容量变化 13007(前端监听)
+message EquipCapacityResp {
+	optional int32 num = 1;	//变化后的容量
+}
+
+//装备
+message Equip_Info {
+	optional int32 id = 1;
+	optional int32 equipId = 2;	//装备id
+	optional int32 dragoType = 3;	//龙纹类型 0 为铭刻龙纹
+}
+
+// -------装备 背包 --------end
+
+
+
+//请求战斗 14001
+message PvpReq {
+	optional int32 target = 1;	//要挑战的怪物id
+}
+
+//战报
+message FightResp{
+	optional int32 fightType=1;//副本类型（pvp,pve，boss，副本什么的);
+	optional int32 configId=2;//配置的id；
+	optional FightGroup myGroup=3;//我方阵营
+	optional FightGroup enemyGroup=4;//地方阵营
+	repeated RoundInfo roundsInfo=5;//回合信息
+}
+
+
+
+//战斗组
+message FightGroup{
+	
+	repeated Fighter fighters=1;//战斗人员
+	optional bool win=2;
+}
+
+//战斗角色的信息
+message Fighter{
+
+	optional int64 id=1;//唯一id
+	optional int64 userId=2;//谁的
+	optional int32 fighterType=3;//这个人的类型1,主角;2,宝宝;3怪物
+	optional int32 configId=4;//对应的配置id
+	optional string name=5;//名字
+	optional int32 pos=6;//位置;	
+	optional int32 hp=7;
+	optional int32 atk=8;
+	optional int32 def=9;
+	optional int32 agi=10;
+	optional int32 mp=11;
+	optional int32 hit=12;
+	optional int32 crt=13;
+	optional int32 catk=14;
+	optional int32 soil=15;
+	optional int32 water=16;
+	optional int32 wind=17;
+}
+
+
+//回合数据
+message RoundInfo{
+	optional int32 round=1;
+	repeated Action actions=2;//动作
+}
+
+//动作
+message Action{
+	optional int64 fighterId=1;//攻击者
+	optional int32 type=2;//0,技能,1,增加buff,2,减少buff
+	optional int32 skillId=3;//技能id
+	repeated BuffAction buffAction=4;//buff信息列表
+	optional int32 fighterType=5;//这个人的类型 
+}
+
+//子动作
+message BuffAction{
+	optional int64 fighterId=1;//被攻击者是谁
+	optional BuffHurtInfo buffHurtInfo=2;//影响的各种属性
+	optional int32 type=3;//类型  暴击什么的
+	optional int32 skillBuffId=4;//技能buffid
+	optional int32 fighterType=5;//被攻击者的类型
+}
+
+//buff影响的各种属性
+message BuffHurtInfo{
+
+	optional int32 buffId=1;
+	optional int32 addHp=2;
+	optional int32 addAtk=3;
+	optional int32 addDef=4;
+	optional int32 addAgi=5;
+	optional int32 addMp=6;
+	optional int32 addHit=7;
+	optional int32 addCrt=8;
+	optional int32 addCatk=9;
+}
+
+
+//技能升级 15001 
+message SkillUpgradeReq {
+	optional int32 sourceType = 1;	//功能类型 0主角 1坐骑 2宠物
+	optional int32 source = 2;	//功能Id 比如主角id，宠物id
+	optional bool isAllUp = 3;	//是否一键升级 1是 0否
+	optional int32 lvlLimit = 4;	//升到指定的等级就停止
+}
+
+//返回技能信息 15002
+message BaseSkillResp {
+	optional int32 sourceType = 1;	//功能类型 0主角 1坐骑 2宠物
+	optional int32 source = 2;	//功能Id 比如主角id，宠物id
+	repeated BaseSkill skill =3;	//技能信息
+}
+
+//技能信息
+message BaseSkill {
+	optional int32 level = 1;	//技能等级
+	optional int32 mastery = 2;	//技能熟练度
+	optional int32 order = 3;	//技能顺序
+
+}
+
+
+// -------邮件 --------begin
+
+//邮件推送（前端监听）15101
+message MailPushResp {
+	optional GMail mail = 1;
+}
+
+//邮件
+message GMail {
+	optional int32 id = 1;	//邮件唯一id
+	optional int32 read = 2;// 0未读取 1已读
+	optional int64 send_time = 3;	//邮件发送时间
+	optional int32 type = 4;	//邮件类型
+	repeated GItem awards = 5;	//邮件奖励
+	optional int32 obtain = 6;// 0未领取 1已领取
+	repeated string fiters = 7;//邮件模板替换字符
+}
+
+//加载邮件信息 15102
+message LoadMailReq {
+}
+
+message LoadMailResp {
+	repeated GMail mails = 1;	//邮件列表
+}
+
+//领取邮件奖励 15103
+message ObtainMailReq {
+	optional int32 id = 1;//邮件id
+	optional int32 type = 2;//0传邮件id 1一键领取
+}
+
+message ObtainMailResp {
+}
+
+//读取邮件 15104
+message ReadMailReq{
+	optional int32 id = 1; //邮件唯一ID
+}
+
+message ReadMailResp {
+
+}
+
+//物品实体
+message GItem {
+	optional int32 attr = 1; //属性ID
+	optional int32 id = 2; //物品ID
+	optional int64 num = 3; //数量
+}
+
+// -------邮件 --------end
+
+
+
+// -------关注 --------begin
+
+//关注信息 16001
+message FocusInfoReq {
+}
+
+//关注玩家列表
+message FocusInfoResp {
+	repeated FriendInfo friendInfo = 1;//好友信息
+}
+
+message FriendInfo {
+	optional string nickName = 1;//好友昵称
+	optional int32 lv = 2;//好友等级
+	optional int32 power = 3;//好友战力
+	optional int32 viplv = 4;//vip等级
+	optional bool focusEachOther = 5;//是否相互关注
+	optional bool isOnline = 6;//是否在线
+	optional int32 lastOffTime = 7;//最后登录时间，计算离线时长
+	optional int32 rid = 8;//玩家id
+	optional int32 head = 9;//玩家头像
+}
+
+//粉丝信息 16002
+message FansInfoReq {
+}
+
+//粉丝玩家列表
+message FansInfoResp {
+	repeated FriendInfo friendInfo = 1;//好友信息
+}
+
+//关注还是取消 16003
+message OperateReq {
+	optional int32 otherRid = 1;
+	optional int32 operate = 2;// 1关注 0取消关注 2相互关注
+}
+
+message OperateResp {
+	repeated int32 rid = 1;//操作的玩家id
+	optional int32 operate = 2;// 1关注 0取消关注
+}
+
+
+// -------关注 --------end
+
+//获取任务列表 17001
+message TaskListReq {
+	optional int32 taskModule = 1;//任务模块  1主线任务
+}
+
+message TaskListResp {
+	optional int32 taskModule = 1;
+	repeated TaskInfo taskInfo = 2;//任务信息列表
+}
+
+//提交任务 17002
+message CommitTaskReq {
+	optional int32 taskModule = 1;//任务模块 1主线任务
+	optional int32 taskId = 2;
+}
+message CommitTaskResp {
+}
+
+//更新任务（前端监听）17003
+message UpdateTaskResp {
+	optional bool isAdd = 1;//是否新增任务true是 false否
+	optional TaskInfo taskInfo = 2;//任务信息列表
+}
+
+message TaskInfo {
+	optional int32 taskModule = 1;//任务模块
+	optional int32 taskId = 2;//任务id
+	optional int32 curNum = 3;//任务当前完成度 
+	optional int32 status = 4;//任务状态 1-未完成，2-完成未领奖，3-完成已领奖
+}
+
+
+// ------- 3v3组队------begin
+
+//队伍信息
+message CrossTeamInfo {
+	optional int32 teamId = 1;//队伍id
+	optional int32 teamLeaderId = 2;//队长id
+	optional int32 teamStatus = 3;//队伍状态 1组队中 2报名参赛
+	repeated CrossTeamMember teamMembers = 4;//队员信息
+}
+
+//队员信息
+message CrossTeamMember {
+	optional int32 rid = 1;//玩家id
+	optional string nick = 2;//玩家昵称
+	optional int32 head = 3;//头像
+	optional int32 level = 4;//等级
+	optional int32 power = 5;//战力
+	optional int32 vipLevel = 6;//VIP等级
+}
+
+//队伍请求
+message CrossTeam {
+	optional int32 reqId = 1;//请求id
+	optional CrossTeamMember teamMembers = 2;//队员信息
+	optional int32 reqType = 3;//请求类型 1队长邀请玩家 2玩家申请加入
+}
+
+
+//加载组队信息，返回队伍信息 18001
+message LoadTeatMemberReq {
+}
+
+message LoadTeatMemberResp {
+	optional CrossTeamInfo teamInfo = 1;//队伍信息
+}
+
+//玩家请求加入队伍 18002
+message JoinTeamReq {
+	optional int32 teamId = 1;//要加入的队伍id
+}
+
+message JoinTeamResp {
+	optional int32 teamId = 1;//要加入的队伍id
+}
+
+//创建队伍请求 18003
+message CreateTeamReq {
+}
+
+message CreateTeamResp {
+	optional int32 teamId = 1;
+}
+
+//请求队伍列表 18004
+message TeamListReq {
+}
+
+message TeamListResp {
+	repeated CrossTeamInfo teams = 1;//队伍列表
+}
+
+//同意入队请求( 返回队伍信息) 18005
+message AgreeJoinReq {
+	optional int32 reqId = 1;//请求id
+}
+
+message AgreeJoinResp {
+	optional int32 result = 1;//同意结果状态 1成功 2失败
+	optional int32 reqId = 2;	//请求id
+}
+
+//拒绝入队请求 18006
+message RefuseJoinReq {
+	optional int32 reqId = 1;//请求id
+}
+
+message RefuseJoinResp {
+	optional int32 redId = 1;//请求id
+}
+
+//解散队伍 18007 (返回队伍信息)
+message DisbandTeamReq {
+}
+
+//队长邀请 18008
+message TeamInviteReq {
+	optional int32 rid = 1;//被邀请玩家id
+	optional int32 teamInviteType = 2;//队长邀请类型 1指定邀请人 2邀请帮派人 3邀请好友
+}
+
+//队长邀请结果
+message TeamInviteResp {
+	optional int32 rid = 1;//被邀请玩家id
+	optional int32 teamInviteType = 2;//队长邀请类型 1指定邀请人 2邀请帮派人 3邀请好友
+}
+// ------- 3v3组队------end
+
+//---------组队副本---------begin
+
+//正在组队成员信息
+message GTeamRoleInfo {
+	optional int32 rid = 1;//玩家id
+	optional string name = 2;//玩家姓名
+	optional int32 head = 3;//头像
+	optional int32 level = 4;//等级
+	optional int32 power = 5;//战力
+	optional string id = 6;//队伍唯一id
+	optional int32 copy_level = 7;//副本等级
+}
+
+//副本队伍信息
+message GTeamInfo {
+	optional string id = 1;//队伍唯一id
+	optional string captain_name = 2;//队长姓名
+	optional int32 people = 3;//人数
+}
+
+//请求副本队伍信息 18101
+message LoadCopyTeamInfoReq {
+	optional int32 level = 1;//等级
+}
+
+message LoadCopyTeamInfoResp {
+	repeated GTeamInfo teamInfos = 1;
+}
+
+//组队 18102
+message FormTeamReq {
+	optional int32 type = 1;// 0加入某支队伍 1快速加入 2创建房间
+	optional string id = 2;//队伍唯一id
+	optional int32 level = 3;//副本等级
+}
+
+message FormTeamResp {
+	optional int32 result = 1;//加入队伍结果 1已加入队伍 2队伍不存在 3队伍已满
+}
+
+//离开队伍 18103
+message LeaveTeamReq {
+	optional int32 type = 1; //0提出队伍 1离开房间
+	optional int32 rid = 2;//踢出玩家rid
+	optional string id = 3;//队伍唯一id
+}
+
+//队伍成员变更推送 18103
+message TeamUpdateResp {
+	repeated GTeamRoleInfo roleInfos = 1;//正在组队成员信息
+}
+
+//发送邀请组队 18104
+message SendAskTeamReq {
+	optional int32 target = 1;//目标玩家
+}
+
+message SendAskTeamResp {
+	optional int32 id = 1;//队伍唯一id
+	optional int32 level = 2;//副本等级
+	optional string nick = 3;//玩家姓名
+}
+
+//---------组队副本------end
+
+
+//-------- 帮派 --------begin
+
+message GFactionDetail {
+	optional int32 id = 1;//帮派id
+	optional string name = 2;//帮派名
+	optional string master_name = 3;//帮主姓名
+	optional int32 exp = 4;//帮派经验
+	optional int32 level = 5;//帮派等级
+	optional int32 meber_num = 6;//成员数量
+	optional int32 bang_gong = 7;//我得帮贡
+	optional int32 rank = 8;//帮派排名
+	optional string notice = 9;//公告
+	optional int64 power = 10;//帮派战力
+	optional int32 post = 11;//职位 10帮主 9副帮主  1成员
+	optional int32 select_join_power = 12;//勾选入帮战力申请 0没勾选 1勾选
+	optional int32 select_auto_join = 13;//自动入帮勾选 0没勾选 1勾选
+	optional int32 join_power_limit = 14;//战力限制
+	optional int32 call_pray_ime = 15;//上次号召上香时间
+}
+
+message GFactionList {
+	optional int32 id = 1;//帮派id
+	optional int32 rank = 2;//排名
+	optional string faction_name = 3;//帮派名字
+	optional string master_name = 4;//帮主名字
+	optional int32 people = 5;//人数
+	optional int64 power = 6;//战力
+	optional int32 apply = 7;// 0未申请帮派 1申请加入帮派
+	optional int32 level = 8;//帮派等级
+	optional int32 merge = 9;// 0默认 1申请合并的帮派 2申请被合并的帮派
+	optional int32 merge_pass_time = 10;//合并过期时间
+	optional int32 master_rid = 11;//帮主id
+	optional int32 status = 12;// 0无 1被合并 2合并
+	optional int32 join_power_limit = 13;//战力限制
+	optional int32 select_join_power = 14;//勾选入帮战力申请 0没勾选 1勾选
+
+
+}
+
+
+//创建帮派 19001
+message CreateFactionReq {
+	optional string name = 1;//帮派名
+}
+
+message CreateFactionResp {
+	optional GFactionDetail detail = 1;//帮派详情信息
+}
+
+//帮派列表 19002
+message FactionListReq {
+	optional int32 type = 1;//0全部帮派列表
+}
+
+message FactionListResp {
+	repeated GFactionList list = 1;
+	optional int32 type = 2;// 0全部帮派列表 1.选择并入帮派 2.并入申请界面
+}
+
+//申请加入帮派 19003
+message JoinFactionReq {
+	optional int32 id = 1;//帮派唯一id
+	optional int32 type = 2;// 0申请加入 1撤销申请
+}
+
+message JoinFactionResp {
+	optional int32 id = 1;//帮派id
+	optional int32 type = 2;// 0申请加入 1撤销申请
+	optional int32 reqId = 3;//请求帮派唯一id
+}
+
+//帮派大厅 19004
+message FactionHallReq {
+}
+
+message FactionHallResp {
+	optional GFactionDetail detail = 1;//帮派详情信息                                       
+}
+
+//审批加入帮派 19005
+message CheckJoinFactionReq {
+	optional int32 target = 1;//允许加入的玩家
+	optional int32 type = 2;// 0允许 1拒绝
+}
+
+message CheckJoinFactionResp {
+}
+
+//退出帮派 19006
+message QuitFactionReq {
+}
+
+message QuitFactionResp {
+}
+
+//踢出帮派 19007
+message KickOutFactionReq {
+	optional int32 target = 1;//玩家rid
+	optional int32 type = 2; // 0踢出指定玩家 1一键清除
+	optional int32 offlineDay = 3;//离线天数
+}
+
+message KickOutFactionResp {
+	optional int32 type = 1;// 0踢出指定玩家 1一键清除
+}
+
+//帮派改名 19008
+message ChangeFactionNameReq {
+	optional string name = 1;
+}
+
+message ChangeFactionNameResp {
+}
+
+
+
+// ---------帮派--------end
+
+
+//错误协议 _90000
+message ErrorResp {
+	optional int32 error = 1;	//错误码
+}

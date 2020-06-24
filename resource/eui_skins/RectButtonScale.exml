@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="skins.RectButtonScale" states="up,down" minHeight="50" minWidth="100" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="0" height="0">
+    <e:Image id="exml_btnImage" width="100%" height="100%" cacheAsBitmap="true" scale9Grid="1,3,8,8"              source="button_up_png"              source.down="button_down_png" width.down="90%" height.down="90%" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" verticalCenter="0" visible.down="false" visible="false"/>
+    <e:Label id="labelDisplay" top="8" bottom="8" left="8" right="8"
+             size="20"
+             textColor="0xFFFFFF" verticalAlign="middle" textAlign="center"/>
+    <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" width="100%" height="100%" width.down="90%" height.down="90%" fillMode="scale"/>
+</e:Skin>

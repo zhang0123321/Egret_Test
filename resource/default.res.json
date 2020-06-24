@@ -1,0 +1,220 @@
+{
+	"groups": [
+		{
+			"keys": "Language_txt,button_down_png,button_up_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,egret_icon_png,game_proto,selected_png,loading_bg_jpg,border_png,header_png,thumb_pb_png,track_pb_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,track_sb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,commonBtn_png,commonBtnDisable_png,buy_config_txt,floor_config_txt,skil_config_txt,upgrade_config_txt,hire_config_txt,food_config_txt,science_config_txt,store_config_txt,di_png,enter_png,logoBG_jpg,tiao_png,move_config_txt",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "Language.txt",
+			"type": "text",
+			"name": "Language_txt"
+		},
+		{
+			"url": "assets/egret_icon.png",
+			"type": "image",
+			"name": "egret_icon_png"
+		},
+		{
+			"url": "assets/game.proto",
+			"type": "bin",
+			"name": "game_proto"
+		},
+		{
+			"url": "assets/loading_bg.jpg",
+			"type": "image",
+			"name": "loading_bg_jpg"
+		},
+		{
+			"url": "assets/Button/button_down.png",
+			"type": "image",
+			"name": "button_down_png"
+		},
+		{
+			"url": "assets/Button/button_up.png",
+			"type": "image",
+			"name": "button_up_png"
+		},
+		{
+			"url": "assets/CheckBox/checkbox_select_disabled.png",
+			"type": "image",
+			"name": "checkbox_select_disabled_png"
+		},
+		{
+			"url": "assets/CheckBox/checkbox_select_down.png",
+			"type": "image",
+			"name": "checkbox_select_down_png"
+		},
+		{
+			"url": "assets/CheckBox/checkbox_select_up.png",
+			"type": "image",
+			"name": "checkbox_select_up_png"
+		},
+		{
+			"url": "assets/CheckBox/checkbox_unselect.png",
+			"type": "image",
+			"name": "checkbox_unselect_png"
+		},
+		{
+			"url": "assets/ItemRenderer/selected.png",
+			"type": "image",
+			"name": "selected_png"
+		},
+		{
+			"url": "assets/ProgressBar/thumb_pb.png",
+			"type": "image",
+			"name": "thumb_pb_png"
+		},
+		{
+			"url": "assets/ProgressBar/track_pb.png",
+			"type": "image",
+			"name": "track_pb_png"
+		},
+		{
+			"url": "assets/Panel/border.png",
+			"type": "image",
+			"name": "border_png"
+		},
+		{
+			"url": "assets/Panel/header.png",
+			"type": "image",
+			"name": "header_png"
+		},
+		{
+			"url": "assets/RadioButton/radiobutton_select_disabled.png",
+			"type": "image",
+			"name": "radiobutton_select_disabled_png"
+		},
+		{
+			"url": "assets/RadioButton/radiobutton_select_down.png",
+			"type": "image",
+			"name": "radiobutton_select_down_png"
+		},
+		{
+			"url": "assets/RadioButton/radiobutton_select_up.png",
+			"type": "image",
+			"name": "radiobutton_select_up_png"
+		},
+		{
+			"url": "assets/RadioButton/radiobutton_unselect.png",
+			"type": "image",
+			"name": "radiobutton_unselect_png"
+		},
+		{
+			"url": "assets/ScrollBar/roundthumb.png",
+			"type": "image",
+			"name": "roundthumb_png"
+		},
+		{
+			"url": "assets/ScrollBar/track_sb.png",
+			"type": "image",
+			"name": "track_sb_png"
+		},
+		{
+			"url": "assets/Slider/thumb.png",
+			"type": "image",
+			"name": "thumb_png"
+		},
+		{
+			"url": "assets/Slider/track.png",
+			"type": "image",
+			"name": "track_png"
+		},
+		{
+			"url": "assets/Slider/tracklight.png",
+			"type": "image",
+			"name": "tracklight_png"
+		},
+		{
+			"url": "assets/ToggleSwitch/handle.png",
+			"type": "image",
+			"name": "handle_png"
+		},
+		{
+			"url": "assets/ToggleSwitch/off.png",
+			"type": "image",
+			"name": "off_png"
+		},
+		{
+			"url": "assets/ToggleSwitch/on.png",
+			"type": "image",
+			"name": "on_png"
+		},
+		{
+			"url": "assets/Common_ui/commonBtn.png",
+			"type": "image",
+			"name": "commonBtn_png"
+		},
+		{
+			"url": "assets/Common_ui/commonBtnDisable.png",
+			"type": "image",
+			"name": "commonBtnDisable_png"
+		},
+		{
+			"url": "assets/config/buy_config.txt",
+			"type": "text",
+			"name": "buy_config_txt"
+		},
+		{
+			"url": "assets/config/floor_config.txt",
+			"type": "text",
+			"name": "floor_config_txt"
+		},
+		{
+			"url": "assets/config/skil_config.txt",
+			"type": "text",
+			"name": "skil_config_txt"
+		},
+		{
+			"url": "assets/config/upgrade_config.txt",
+			"type": "text",
+			"name": "upgrade_config_txt"
+		},
+		{
+			"url": "assets/config/hire_config.txt",
+			"type": "text",
+			"name": "hire_config_txt"
+		},
+		{
+			"url": "assets/config/food_config.txt",
+			"type": "text",
+			"name": "food_config_txt"
+		},
+		{
+			"url": "assets/config/science_config.txt",
+			"type": "text",
+			"name": "science_config_txt"
+		},
+		{
+			"url": "assets/config/store_config.txt",
+			"type": "text",
+			"name": "store_config_txt"
+		},
+		{
+			"url": "assets/logo/di.png",
+			"type": "image",
+			"name": "di_png"
+		},
+		{
+			"url": "assets/logo/enter.png",
+			"type": "image",
+			"name": "enter_png"
+		},
+		{
+			"url": "assets/logo/logoBG.jpg",
+			"type": "image",
+			"name": "logoBG_jpg"
+		},
+		{
+			"url": "assets/logo/tiao.png",
+			"type": "image",
+			"name": "tiao_png"
+		},
+		{
+			"url": "assets/config/move_config.txt",
+			"type": "text",
+			"name": "move_config_txt"
+		}
+	]
+}
